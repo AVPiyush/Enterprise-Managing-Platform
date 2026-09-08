@@ -39,5 +39,14 @@ services:
 
     restart: unless-stopped
 
+  redis:
+    image: redis:7
+
+    container_name: eap-redis
+
+    ports:
+      - "6379:6379"
+
+    restart: unless-stopped
 volumes:
   postgres_data:

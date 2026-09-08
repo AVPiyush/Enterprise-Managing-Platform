@@ -4,6 +4,7 @@ from app.api.health import router as health_router
 from app.core.config import get_settings
 from app.api.v1.database import router as database_router
 from app.api.v1.users import router as users_router
+from app.api.v1.cache import router as cache_router
 
 settings = get_settings()
 
@@ -16,7 +17,7 @@ app = FastAPI(
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(database_router, prefix="/api/v1")
 app.include_router(users_router, prefix="/api/v1")
-
+app.include_router(cache_router, prefix="/api/v1")
 @app.get("/")
 async def root() -> dict[str, str]:
     return {
