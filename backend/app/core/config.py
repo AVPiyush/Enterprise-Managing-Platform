@@ -1,20 +1,33 @@
-from functools import lru_cache
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    app_name: str = "Enterprise Agent Platform"
-    environment: str = "development"
-    debug: bool = True
+    APP_NAME: str = "Enterprise Agent Platform"
+    ENVIRONMENT: str = "development"
+    DEBUG: bool = True
 
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
+    # Postgres
+    POSTGRES_DB: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+
+    # Redis
+    REDIS_HOST: str
+    REDIS_PORT: int
+
+    @property
+    def DATABASE_URL(self) -> str:
+        return (
+            f"postgresql+psycopg://"
+            f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/"
+            f"{self.POSTGRES_DB}"
+        )
+
+    class Config:
+        env_file = ".env"
 
 
-@lru_cache
-def get_settings() -> Settings:
-    return Settings()
+settings = Settings()

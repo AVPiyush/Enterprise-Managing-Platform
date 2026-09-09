@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 import os
+from app.core.config import settings
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -25,7 +26,7 @@ DATABASE_URL = (
 )
 
 #config.set_main_option("sqlalchemy.url", DATABASE_URL)
-config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
