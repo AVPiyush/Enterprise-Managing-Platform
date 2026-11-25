@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     REDIS_HOST: str
     REDIS_PORT: int
 
+    #Ollama
+    OLLAMA_BASE_URL: str = "http://host.docker.internal:11434"
+    OLLAMA_MODEL: str = "qwen2.5:3b"
+
     @property
     def DATABASE_URL(self) -> str:
         return (

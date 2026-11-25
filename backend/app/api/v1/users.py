@@ -1,34 +1,42 @@
-from fastapi import APIRouter
+
+from uuid import uuid4
+
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
 from app.database.session import SessionLocal
 from app.database.models.user import User
 
 router = APIRouter(tags=["Users"])
 
 
-@router.post("/users")
-def create_user():
+def get_db():
     db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-    user = User(email="test@example.com", name="Test User")
+
+@router.post("/users")
+def create_user(db: Session = Depends(get_db)):
+    user = User(
+        email=f"test-{uuid4().hex[:8]}@example.com",
+        hashed_password="temporary-placeholder",
+        name="Test User",
+    )
 
     db.add(user)
     db.commit()
     db.refresh(user)
 
-    db.close()
-
     return {
         "id": user.id,
-        "email": user.email
+        "email": user.email,
+        "name": user.name,
     }
 
 
 @router.get("/users")
-def get_users():
-    db = SessionLocal()
-
-    users = db.query(User).all()
-
-    db.close()
-
-    return users
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()

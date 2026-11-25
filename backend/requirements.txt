@@ -5,7 +5,16 @@ pydantic-settings
 sqlalchemy
 psycopg[binary]
 
-alembic
 python-dotenv
 
 redis
+pwdlib[argon2]
+email-validator
+
+pypdf
+python-multipart
+
+chromadb
+fastembed
+
+httpx

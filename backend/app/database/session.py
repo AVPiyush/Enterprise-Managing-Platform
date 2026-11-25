@@ -1,18 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os
+
 from app.core.config import settings
 
-DATABASE_URL = (
-    f"postgresql+psycopg://"
-    f"{os.getenv('POSTGRES_USER')}:"
-    f"{os.getenv('POSTGRES_PASSWORD')}@"
-    f"{os.getenv('POSTGRES_HOST')}:"
-    f"{os.getenv('POSTGRES_PORT')}/"
-    f"{os.getenv('POSTGRES_DB')}"
+engine = create_engine(settings.DATABASE_URL)
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
 )
-
-print("Database URL:", DATABASE_URL)  # Debugging line to print the database URL
-engine = create_engine(DATABASE_URL, echo=True)
-
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
