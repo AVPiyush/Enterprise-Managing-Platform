@@ -11,6 +11,7 @@ from app.api.v1.documents import router as documents_router
 from app.api.v1.indexing import router as indexing_router
 from app.api.v1.search import router as search_router
 from app.api.v1.chat import router as chat_router
+from app.api.v1.invoices import router as invoices_router
 
 from app.core.config import settings
 from app.core.logging import setup_logging
@@ -41,6 +42,7 @@ app.include_router(documents_router, prefix="/api/v1")
 app.include_router(indexing_router, prefix="/api/v1")
 app.include_router(search_router, prefix="/api/v1")
 app.include_router(chat_router, prefix="/api/v1")
+app.include_router(invoices_router, prefix="/api/v1")
 
 @app.get("/")
 async def root() -> dict[str, str]:
