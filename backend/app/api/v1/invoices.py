@@ -43,10 +43,22 @@ def extract_invoice(
         extracted_data = extract_invoice_fields(
             document.extracted_text
         )
+
+        document.invoice_data = extracted_data
+        db.commit()
+        db.refresh(document)
+
     except RuntimeError as exc:
+        db.rollback()
         raise HTTPException(
             status_code=502,
             detail=str(exc),
+        )
+    except Exception:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Could not save extracted invoice data",
         )
 
     return {

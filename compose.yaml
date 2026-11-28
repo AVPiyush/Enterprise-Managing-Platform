@@ -29,10 +29,10 @@ services:
     environment:
       POSTGRES_DB: eap
       POSTGRES_USER: eap_user
-      POSTGRES_PASSWORD: piyush_eapdb
+      POSTGRES_PASSWORD: ${piyush_eapdb}
 
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
     volumes:
       - postgres_data:/var/lib/postgresql/data

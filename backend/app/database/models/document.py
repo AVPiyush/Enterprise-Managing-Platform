@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, Integer, String, Text, DateTime, JSON
 from sqlalchemy.sql import func
 
 from app.database.base import Base
@@ -16,3 +16,4 @@ class Document(Base):
     extracted_text = Column(Text, nullable=True)
     extraction_status = Column(String, default="pending")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    invoice_data = Column(JSON, nullable=True)
